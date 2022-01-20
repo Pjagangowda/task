@@ -1,0 +1,36 @@
+export APP_INSTANCE_NAME=jagan-cluster-monitoring
+export NAMESPACE=jagan
+
+kubectl create namespace "$jagan"
+
+
+export GRAFANA_GENERATED_PASSWORD="$(echo -n 'jagannadha' | base64)"
+
+jagan-cluster-monitoring_manifest.yaml
+
+vi jagan-cluster-monitoring_manifest.yaml
+
+insert
+
+awk 'FNR==1 {print "---"}{print}' manifest/* \
+ | envsubst '$jagan-cluster-monitoring $jagan $jagannadha' \
+ > "${jagan-cluster-monitoring}_manifest.yaml"
+
+:wq!
+
+kubectl apply -f jagan-cluster-monitoring_manifest.yaml --namespace jagan
+
+kubectl apply -f "${sammy-cluster-monitoring}_manifest.yaml" --namespace "${jagan}"
+
+kubectl create namespace "$default1"
+
+export GRAFANA_GENERATED_PASSWORD="$(echo -n 'jaga' | base64)"
+
+
+
+
+kubectl apply -f "${sammy-cluster-monitoring}_manifest.yaml" --namespace "${default1}"
+
+
+
+

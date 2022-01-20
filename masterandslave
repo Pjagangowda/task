@@ -1,0 +1,55 @@
+jenkins master and slave setup
+
+
+two install two jenkins servers
+
+in one mechine we want jenkins userdata and another jenkin server we want only java
+
+and to connect two mechines with ssh-keygen
+
+to taken by the keygen in master and in the slave in root/ec2 .ssh vi authorized-keys insert it.
+
+and take the master port number access jenkin console
+
+1)in the console manage jenkins
+
+2)manage nodes and clouds
+
+3)new node
+
+4)node name and permanent azent
+
+5)
+
+
+
+
+
+
+slave setup
+ 
+create ssh keys
+sudo su -jenkins-slve-1
+ssh-keygen -t rsa -N "" -f /homejenkins-slave-1/ .ssh/id_rsa 
+the private and public keys will be created at the location '/home/jenkins-slave-1/ .ssh/id_rsa' and '/home/jenkins'
+cd .ssh
+cat id_rsa.pub > authorized_keys
+chmod 700 authorized_keys
+
+
+
+
+master setup
+
+masternode known hosts files
+mkdir -p /var/lib/jenkins/ .ssh
+ssh-keyscan -H SLAVE-NODE-IP-OR-HOSTNAME >> /var/lib/jenkins/ .ssh/known_hosts
+#ssh-keyscan -h 10.0.0.99 >> /var/lib/jenkins/ .ssh/known_hosts
+chown jenkins:jenkins known_hosts
+chmod 700 known_hosts
+
+
+
+ 
+
+

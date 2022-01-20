@@ -1,0 +1,31 @@
+real time commands
+
+CHAMU AKKA ORAGANAIZATION
+
+loging server ofter
+script /var/tmp/rtpa-dxc.txt
+ 
+version checking command
+cat /etc/*/release
+
+errors checking cmd
+
+egrep -i "error|crit|fatal" /var/log/messages
+
+status checking
+
+systemctl status (malware protection)
+
+monotoring tool : dynatrace(one azent(log azent))
+systemctl status oneazent
+
+to check the cron jobs command
+
+cat /var/spool/cron/*
+
+
+
+
+
+
+

@@ -1,0 +1,66 @@
+1.what is difference between git pull and git fetch?
+
+git pull: to pull the code from remote repository to local repository and modifies any changes from the code.
+
+git fetch: to fetch the code from remote to local repository but con't modify the code.
+
+2.what is git clone?
+
+it is used to clone the code from remote repository to local repository ,and we modify the any changes from the code and also to push the remote.
+
+3.what is git fork?
+it is used to fork the code from one accout to anotherr account.
+
+4.what is git merge?
+git merge means to copy the code from one repo to another repo 
+
+and also it copy the all commit id's.
+
+5.what is git rebase?
+ 
+git rebase means,it copy the code from one branch to anotherr branch to another branch 
+
+and also ic convert all the commit id's into single commit id.
+
+6.what is webhook in git hub?
+
+the webhook is used to automatically trigger the jenkins job ,instead of we need a jenkins url and also enable the webhook trigger option in jenkins job
+
+7.what is git hub actions?.
+it is nothing but cicd process,but in my environment we are using jenkins server as cicd purpose.
+
+8.how to protect a branches?
+goto setting ,select branches option ,in that location we have several options to protect the branches.
+
+9.what is branching strategy?
+in my environmet we are using two branching strategy.
+but mainly we follows the branching strategy is 
+
+dev/stage/pre-prod
+
+prod
+
+dont push the code from these branches ,to create a sub branch like feature ,
+to push the code to feature branch and create a pull request from featrure to dev/stage/pre-prod/prod.
+
+10.what is pull request?
+pull request is a technique,which is used to pust the code from sub branch to main branch.
+because the main branch is protected that's way we are push the code to sub branch and create a pull request from sub branch to main branch.
+
+11.what is git life cycle?
+any changes from the file in your local it will be push into your remote repo 
+
+git add .
+first we adding the current modified  files from your work directory to stagging area.
+
+git status 
+this command will show the current modified  files 
+
+git commit
+this command is used to move the file from stagging areaa to commited arae along with the commit id with messge.
+
+git push origin main
+this command push the modified files from your commited area to remote repository.
+
+git add------>git commit------>git push origin branch name----->remote branch.
+work directory----->stagging area------>commited area------>remote repository.

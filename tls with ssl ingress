@@ -1,0 +1,74 @@
+
+tls certificate
+
+Secure Your argocd-server:
+
+1.Create a namespace
+
+   kubectl create namespace cert-manager
+
+2. Install cert-manager
+
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
+
+3: Create a certificate issuer
+
+vi certificate-issuer.yml 
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: mrkenanbek@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+and apply changes:
+
+kubectl apply -f certificate-issuer.yaml
+install ingress-controller before  create ingress.yml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.34.1/deploy/static/provider/cloud/deploy.yaml
+kubectl apply -f ingress.yml -n nginx
+kubectl get ing -n nginx
+
+
+
+
+
+
+
+
+next ingress.yml
+vi ingress.yml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata: 
+  name: newsatatic-server-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: jagadha.online        
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: newstatic-server
+          servicePort: https
+  tls:
+  - hosts:
+      - jagadha.online  
+    secretName: newstatic-secret

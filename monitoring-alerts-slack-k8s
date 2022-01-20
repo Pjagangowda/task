@@ -1,0 +1,136 @@
+ monitoring
+ manual
+
+install in jenkin server node exporter and
+
+another mechine install node-exporter and prometheus
+
+go to cd prometheus and edit prometheus.yml
+
+vi prometheus.yml
+
+add targets local host line
+
+
+MONITORING IN KUBERNETES
+ 
+install cluster one ec2 mechine and connect to the jenkins server ofter we get kubectl get nodes successfully connected.
+ofter connect the two ec2-mechines add the iam role like adminstrater access.
+ install kubectl
+
+install aws-iam-authenticater
+
+install awscli
+ 
+create cluster 
+
+helm install
+ 
+ dowload helm
+
+wget https://get.helm.sh/helm-v3.6.0-linux-amd64.tar.gz
+
+untar
+
+tar xvf helm-v3.6.0-linux-amd64.tar.gz
+
+move to path
+
+sudo mv linux-amd64/helm /usr/local/bin
+
+remove
+
+rm -rf linux-amd64
+
+version checking
+
+helm version
+
+ofter install helm add the prometheus namespace yaml
+
+# add prometheus Helm repo
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+# add grafana Helm repo
+helm repo add grafana https://grafana.github.io/helm-charts
+
+ofter hem repo and deploy prometheus
+
+kubectl create namespace prometheus
+
+helm install prometheus prometheus-community/prometheus \
+    --namespace prometheus \
+    --set alertmanager.persistentVolume.storageClass="gp2" \
+    --set server.persistentVolume.storageClass="gp2"
+
+
+kubectl get all -n prometheus
+
+port forwarding prometheus
+
+ kubectl port-forward -n prometheus deploy/prometheus-server 8088:9090 --address='0.0.0.0'
+
+ofter access outside with port mapping
+
+next grafana yaml
+
+vi grafana.yaml
+
+
+setup environment ofter login grafana
+
+cd newk8sstatic/
+  455  ls
+  456  cd grafana/
+  457  ls
+  458  cat grafana.yaml
+  459  grafana.yaml :wq!
+  460  cd
+  461  cd newk8sstatic/
+  462  'ls
+ls
+  463  ls
+  464  rm -rf grafana/
+  465  ls
+  466  mkdir environment
+  467  ls
+  468  rm -rf environment/
+  469  cd
+  470  mkdir environment
+  471  cd environment/
+  472  ls
+  473  mkdir grafana
+  474  cd grafana/
+  475  ls
+  476  vi grafana.yaml
+  477  kubectl create namespace grafana
+  478  helm install grafana grafana/grafana     --namespace grafana     --set persistence.storageClassName="gp2"     --set persistence.enabled=true     --set adminPassword='EKS!sAWSome'     --values ${HOME}/environment/grafana/grafana.yaml     --set service.type=LoadBalancer
+  479  ll
+  480  vi grafana.yaml
+  481  history
+
+
+access outside service
+
+kubectl get all -n grafana
+
+export ELB=$(kubectl get svc -n grafana grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+
+echo "http://$ELB"
+
+kubectl get secret --namespace grafana grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+get dashbords
+
+login with 
+username admin 
+password EKS!sAWSome
+
+Click '+' button on left panel and select ‘Import’.
+Enter 3119 dashboard id under Grafana.com Dashboard.
+Click ‘Load’.
+Select ‘Prometheus’ as the endpoint under prometheus data sources drop down.
+Click ‘Import’.
+
+after alert manager server install in the server
+add to the slack

@@ -1,0 +1,22 @@
+linux patching
+> check os level
+> check kernel
+> check mountpoint threashold
+> check updates are there or not
+> Validate application/services are stopped or not
+> update packages
+> Reboot the server
+> Validate latest kernel 
+> memory,mountpoint
+> If everything is fine update to application/services team to start their services
+> ps -ef |grep -v root
+
+cmds
+How to Check Amazon Linux Version from the Command Line
+  cat /etc/os-release
+  uname -r
+  df -Th
+  ps -ef|grep -v root
+
+
+Task: Create mountpoint and increase

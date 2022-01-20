@@ -1,0 +1,26 @@
+Q.What is the main purpose of Maven?
+
+Maven's primary goal is to allow a developer to comprehend the complete state of a development effort in the shortest period of time. In order to attain this goal, Maven deals with several areas of concern: Making the build process easy. Providing a uniform build system.
+
+Q.What is Maven lifecycle?
+
+Maven is based around the central concept of a build lifecycle. ... There are three built-in build lifecycles: default, clean and site. The default lifecycle handles your project deployment, the clean lifecycle handles project cleaning, while the site lifecycle handles the creation of your project's web site.
+
+Q.What does Maven stand for?
+MAVEN stands for Mars Atmosphere and Volatile EvolutioN.
+
+Q.What is Jenkins maven?
+
+A maven is a build tool designed to manage dependencies and the software lifecycle. ... It checks code out of a repository, builds and packages it, and sends it out to a server for testing – automatically. Jenkins can use Maven as its build tool.
+
+Q.What is maven deploy?
+Goals Overview
+
+deploy:deploy is used to automatically install the artifact, its pom and the attached artifacts produced by a particular project. Most if not all of the information related to the deployment is stored in the project's pom. deploy:deploy-file is used to install a single artifact along with its pom.
+
+Q.What is maven clean deploy?
+
+clean : removes files generated at build-time in a project's directory ( target by default) install : installs the package into the local repository, for use as a dependency in other projects locally.
+
+Q.Is maven a compiler?
+The Compiler Plugin is used to compile the sources of your project. Since 3.0, the default compiler is javax. tools.

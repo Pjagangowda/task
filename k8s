@@ -1,0 +1,210 @@
+1.What is kubernetes? why we use?
+	Kubernetes is a orchartation tool,
+	1.which is used to provide a high availability to application .
+	2.easy to autoscalling the packages.
+	3.maintaining the containers easy.
+	4.reduces the cost and infrastructure.
+2.what are the objects are availabe in kubernetes?
+	1.deployment objects:
+		1.pod
+		2.deployment
+		3.replication set/ replication controller
+		4.demond set
+		5.statefull set
+	2.network objects.
+		1.service 
+		2.Ingress.
+	3.storage objects
+		1.persistance volume
+		2.persistance volume claim
+		3.storage class
+	4.sectert objects
+		1.secrets
+		2.config map
+3.what is pod?
+	a pod inside the container is running,each pod contains each application it is good approach.
+	but some time a single pod contains one more containers
+	 one is main application and another one is sidecar container.
+
+4.what is sidecar container?
+ 	side carcontainer is used to collect the metrics from application container 
+	the two containers are running in the single pod.
+
+5.what is deployment?
+deployment is used to deploy the pods in worker node.
+most of the 80% companies follows the deployment object to deploy the  application into pods.
+
+6.what is difference between pod and deployment?
+ 	pod is unmanages process,if  the container goes down the data of the application doesnot recovery.
+	deployment is manages process it have replicaset to maintains the application is easy.
+
+7.what is demonset?
+it is object to deploy the any kind of packages to all worker node at a time to use the demonset.
+
+8.what is stateful set?
+the stateful set is used to deploy the  application into pods .it have a pre-defined databases to store the application data.dont use the volumes.
+
+9.what is service?
+a serrvice object is used to expose the pod.
+if u creating the any pod to acces  from outside ,we need to create service.
+
+10.what are the types of services?
+
+	1.clusterIP
+	     it is used for only inside of the cluster.
+	2.nodeport
+	   it is used to acces the pod into outside to give the portmapping througth the worker node.
+	3.service type = loadbalancer.
+	    to give the service type loadbalancer to acces the application into outside.
+
+11.what is the disADVANTAGE OF service type is loadbalancerr?
+	 one application have one loadbalancer is normal concept ,but no.of apps comes then the loadbalancer count is increased. to overcome this concet to use the ingress concept.
+
+12.what is ingress nginx controller?
+	 it is a technique which is used to reduces the no.of loadbalancers.
+	one loadbalancer to connect with multiple applications.
+
+	ingress have nlb loadbalancer 
+	it have ingress rules
+	it will route the traffic from either HOST based and PATH based.
+	it have c-type record end point through to create dnc record.
+13.enduser flow?
+
+end user-->dns end point(eg: jenkins.kkmn.info)--->Ingrss controller--->ingrsee service-->ingress pod(it have a ringress rules host or path)--->app.service---->app.dept-->app.pod.
+
+
+14.admin flow?
+
+admin-->kubectl(configs=api server+tls+protocols)--->master-->apiserver--->etcd--->worker-->kubelet-->pods.
+
+15.what is persistance volume?
+it is a physical storage
+dont attach directly to the pods.
+
+
+Q.Is Amazon S3 NFS?
+
+S3 does not support NFS. Comparing EFS to another popular Amazon service, Elastic Block Storage (EBS), the major advantage of EFS is that it offers shared storage. EBS has higher performance, but it is attached to a specific EC2 machine instance and cannot be shared across multiple machines.
+
+Q.Can we install OS on EFS?
+
+What you can't do is boot an EC2 instance from EFS, so installing the OS on an EFS filesystem would not work. From my understanding, AWS EFS is block based storage.
+
+
+
+Q.Kubernetes version.
+
+Original author(s)	Google
+Developer(s)	Cloud Native Computing Foundation
+Initial release	7 June 2014
+Stable release	1.22.2 / August 4, 2021
+Repository	github.com/kubernetes/kubernetes.
+
+Q.What is RoleBinding?
+A role binding grants the permissions defined in a role to a user or set of users. It holds a list of subjects (users, groups, or service accounts), and a reference to the role being granted. A RoleBinding grants permissions within a specific namespace whereas a ClusterRoleBinding grants that access cluster-wide.	
+
+
+16.what is pvc?persistance volume claim?
+ It is reference of pv .
+the reference will attach to the pods because of to store the containerr data in to pv volumes.
+
+17.what is storage class?
+it is also a one kind of volume to store the container data .
+local,remote or any cloud.
+
+18.what is config map?
+config map is a one kind of object in k8s,it have a some plain text data
+for example:data base url or endpoint.
+
+19.secrets?
+secrets is most impartant data .it is a sensitive data .the data will be encripted by using the some algorithms like base64.
+to allocate the secret data through env variables.
+
+20.what are the pre requirement in eks cluster.
+
+master node and worker nodes setup.
+kubectl config file
+admin role authentication.
+aws iam authenticator.
+
+21.waht is api server?
+ api server is mediator between the all worker nodes and master.
+it will communicate with all the parts of master like etcd,scheduler,controller.
+
+22.what is etcd?
+etcd is used to store the pod relate information.
+like pod id ,which worker node these all details are maintaining the etcd.
+
+23.what is scheduler?
+the scheduler works based on selection and election proces ,which is used to select the available worker nodes to deploy the pods into container.
+
+24.what is controller?
+which is used to checking all the sysntax for the yamal file for deployment, service, etc..
+
+25.what is kubelet?
+most off the work doing inthe worker node is kubelet .it will pull the images from ecr,docer hub etc..
+and it will communicate through api server .
+
+26.what is kube proxy?
+it will route the trafics from out side to inside of the cluster.
+to connect the pods.
+
+27.what is limit and resource?
+resource: any pod to start then it will take some  of resources.
+limit; if the pod takes the resources above the limit it will kill by automatically.
+
+
+What is PV and PVC in Kubernetes?
+A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes. ... A PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod. Pods consume node resources and PVCs consume PV resources.
+
+How do I add Volume to Kubernetes?
+Configure a volume for a Pod
+Verify that the Pod's Container is running, and then watch for changes to the Pod: ...
+In another terminal, get a shell to the running Container: ...
+In your shell, go to /data/redis , and then create a file: ...
+In your shell, list the running processes: ...
+In your shell, kill the Redis process
+
+
+28.what is difference between livenessprob and readynessprob?
+
+Livenessprob: it checks the health check and it will restart the pod.
+readynessprob: it will check the healthcheck bit not restart the pod.
+
+29.how to maintasin autoscalling?
+ to increases the replicas count  then automatically increasing the high availability.
+
+30.command in k8s?
+kubectl get nodes
+
+kubect get po
+kubectl get svc
+kubectl get ingress
+kubectl get deployment
+kunens --it is a name space additional tool. to group the objects.
+
+kubectl create volume volumename.
+kube ctl edit deployment yamalfile name   --temorary chances.
+
+kubectl get deployment  deploymentname -o wide
+
+kubectl get svc  svcname -o wide
+
+
+kubectl describe po id
+ it will show all the info about the pod
+
+kubectl apply -f filename  ---it will create the objects.
+
+
+
+namespace
+
+Any number of namespaces are supported within a cluster, each logically separated from others but with the ability to communicate with each other.
+
+
+
+What is Deployment and service in Kubernetes?
+What's the difference between a Service and a Deployment in Kubernetes? A deployment is responsible for keeping a set of pods running. A service is responsible for enabling network access to a set of pods. We could use a deployment without a service to keep a set of identical pods running in the Kubernetes cluster.
+
+ 

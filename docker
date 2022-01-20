@@ -1,0 +1,176 @@
+1. what is docker?
+docker is a container technology, which is used to build images or templates, we can run an image any ware, instead of a docker engine.
+2. what is docker-engine?
+docker-engine is used to run a container any ware, but instead of we need a docker engine. we can install docker engine any ware like in your local or ec2 machines and etc...
+
+3. what is the image?
+image is a template or static content. build the docker file we get the image?
+
+4. what is a container?
+whenever we can run the docker image at the time we get the docker container, inside a container the application is running.
+
+5. what is the docker file?
+The docker file is nothing but a set of instructions. to build the docker file we will get the image.
+
+6. structure of docker file?
+from base image
+add or copy
+run
+work dir
+exposed port
+cmd or entry point
+
+7. what is a multi-stage docker file?
+series of images section inside a docker file is called multi-stage docker file.
+if build the package on first FROM base image and then copy the package from second FROM base image through the alias name.
+
+8. what is the difference between add and copy?
+add: add is used to download the files and also extract or copy the files.
+but
+copy : is used to copy the files from one location to another location.
+
+9. what is the difference between cmd and entry point?
+both or used to run the services
+cmd: will be overridden, the last cmd will be executed.
+entry point: will not be overridden it will be appended.
+
+For example, we run ten commands in cmd only executes the last one but in entry point to run all ten commands executed at the same time it will be appended.
+cmd    system
+entry point    start httpd      ------------>correct.
+
+cmd   date
+entry point ls  ------------>wrong.
+
+10. how to access containers?
+to run an image we will get the container by using the port mapping(target port : host port)
+
+11. commands?
+docker build -t imagename .
+docker run -d -p taget port : hostport imagename
+docker images   ------list the images
+docker ps   -----------list the containers
+docker ps -a   -----shows all the containers
+docker ps -a status =exited  ----it shows only exited containers.
+docker rmi image id  ----remove the particular image
+
+docker rm container id ----remove the particular container.
+
+docker build -t name.   ----it is used to build the current docker file
+
+docker run -d -p tg-port:host-port image name   ---run container
+
+docker run -d -p tg-port:host-port  image name -v targetpath:containerpath
+
+11. docker default path
+var/lib/docker
+
+12. docker volume path
+var/lib/docker/volume
+
+13. what is volume?
+to create a volume and attach it to the container path it will store the container data into your particular volume...
+it is the advantage to store the container data.
+
+14. what are the network types?
+bridge   ---default network.
+overlay   --to configure different network containers to use overlay.
+none
+mackvlan
+
+15. alternatives of docker?
+pod man
+rocket
+
+16. disadvantages of docker?
+managing containers is difficult.
+
+17. how to reduce the docker image size?
+to select the light-weighted base image
+and
+remove the unwanted files.
+
+
+18. what is docker-compose?
+to managing a container is easy and to run a multiple containers at a time
+Configuring the two containers is easy based on the dependencies.
+
+docker-compose to test locally not a production.
+
+Q.Docker Container Lifecycle Management:
+
+Create, Run, Pause, Stop And Delete. Docker is a containerization platform for developing, shipping, and running applications inside containers. We can deploy many containers simultaneously on a given host. ... In this blog, we will talk about Docker Container Lifecycle Management.
+
+Q.How long does docker exist?
+Docker debuted to the public in Santa Clara at PyCon in 2013. It was released as open-source in March 2013. At the time, it used LXC as its default execution environment.
+
+Q.DOCKER VERSION?
+
+The most recent Docker release, however, is 20.10. 7
+but we are using our organization 19. x.
+
+Q.Is docker the future?
+
+Docker has been tipped as the future of virtualization. Its popularity is definitely growing, especially with companies like Netflix, Spotify, PayPal, and Uber using the containerization system. Have provided hosting for Docker containers on our Private Docker platform.
+
+Q.What is docker architecture?
+
+Docker architecture. Docker uses a client-server architecture. The Docker client talks to the Docker daemon, which does the heavy lifting of building, running, and distributing your Docker containers. ... The Docker client and daemon communicate using a REST API, over UNIX sockets or a network interface.
+
+Q.DOCKER COMMANDS?
+docker build -t name.
+docker run -d -p targetport:hostport image name
+docker run – Runs a command in a new container.
+docker start – Starts one or more stopped containers
+docker stop – Stops one or more running containers
+docker build – Builds an image from a Docker file
+docker pull – Pulls an image or a repository from a registry
+docker push – Pushes an image or a repository to a registry
+docker export – Exports a container’s filesystem as a tar archive
+docker exec – Runs a command in a run-time container
+docker search – Searches the Docker Hub for images
+docker attach – Attaches to a running container
+docker commit – Creates a new image from a container’s changes
+
+--------------------------------------------------------DOCKER SWARM----------------------------------------------------------------------------------------
+
+
+
+Q.Docker Swarm
+
+Docker swarm is a container orchestration tool, meaning that it allows the user to manage multiple containers deployed across multiple host machines. One of the key benefits associated with the operation of a docker swarm is the high level of availability offered for applications.
+
+Q.Is Kubernetes the same as Docker Swarm?
+Kubernetes focuses on open-source and modular orchestration, offering an efficient container orchestration solution for high-demand applications with complex configurations. Docker Swarm emphasizes ease of use, making it most suitable for simple applications that are quick to deploy and easy to manage.
+
+-----------------------------------------------------DOCKER COMPOSE----------------------------------------------------------------------------------------
+
+
+
+Q.WHAT IS DOCKER-COMPOSE?
+
+Compose is a tool for defining and running multi-container Docker applications. With Compose, you use a YAML file to configure your application's services. Then, with a single command, you create and start all the services from your configuration.
+
+
+Q.What is docker-compose vs Kubernetes?
+
+Docker Compose is designed from the ground up to simplify the deployment of microservices. ... For starters, Docker Compose is designed to run on a single host or cluster, while Kubernetes is more agile in incorporating multiple cloud environments and clusters.
+
+Q.What is the difference between Docker and docker-compose?
+
+The difference between Docker and Docker-compose is simple: docker commands are focused on only one container (or image) at once while docker-compose manages several containers docker.
+
+Q.Can you use Docker compose without a Dockerfile?
+
+The answer is neither. Docker Compose (herein referred to as compose) will use the Dockerfile if you add the build command to your project's docker-compose.
+
+Q.How do I start Docker compose service?
+Get started with Docker Compose
+Step 1: Setup. ...
+Step 2: Create a Dockerfile. ...
+Step 3: Define services in a Compose file. ...
+Step 4: Build and run your app with Compose. ...
+Step 5: Edit the Compose file to add a bind mount. ...
+Step 6: Re-build and run the app with Compose. ...
+Step 7: Update the application.
+
+

@@ -1,0 +1,19 @@
+Using KMS from the CLI
+
+
+1. "KeyId": "e2c675cd-eeea-43d4-957f-2b5b093a079c" 
+2. "Arn": "arn:aws:kms:us-east-2:002784619873:key/e2c675cd-eeea-43d4-957f-2b5b093a079c",
+
+3. aws kms encrypt \
+--key-id e2c675cd-eeea-43d4-957f-2b5b093a079c \
+--plaintext "My Test String"
+
+
+4. aws kms encrypt --key-id e2c675cd-eeea-43d4-957f-2b5b093a079c \
+--plaintext "My Test String" \
+--output text \
+--query CiphertextBlob | base64 --decode > output.dat
+
+5. aws kms decrypt --ciphertext-blob fileb://output.dat
+
+6. echo -n "TXkgVGVzdCBTdHJpbmc=" | base64 --decode

@@ -1,0 +1,144 @@
+1  wget https://get.helm.sh/helm-v3.4.1-linux-amd64.tar.gz
+    2  tar xvf helm-v3.4.1-linux-amd64.tar.gz
+    3  sudo mv linux-amd64/helm /usr/local/bin
+    4  helm version
+
+
+
+
+
+
+
+
+ mkdir flahem
+  304  cd flahem/
+  305  wget https://get.helm.sh/helm-v3.4.1-linux-amd64.tar.gz
+  306  tar xvf helm-v3.4.1-linux-amd64.tar.gz
+  307  sudo mv linux-amd64/helm /usr/local/bin
+  308  helm version
+  309  ls -ltr
+  310  chmod 755 helm-v3.4.1-linux-amd64.tar.gz
+  311  ls -ltr
+  312  cd /usr/local/bin/
+  313  ls -ltr
+  314  kubectl get pods
+  315  vi helm
+  316  cd ..
+  317  ls -ltr
+  318  cd
+  319  ls -ltr
+  320  cd flahem/
+  321  ls -ltr
+  322  helm --version
+  323  helm -version
+  324  helm version
+  325  ls -ltr
+  326  helm create jaga
+  327  ls
+  328  cd jaga/
+  329  ls'
+  330  ls
+  331  cat values.yaml
+  332  ls
+  333  cd charts/
+  334  ls
+  335  cd ..
+  336  ls
+  337  vi charts/
+  338  cd charts/
+  339  ls
+  340  cd ..\
+  341  cd ..
+  342  ls
+  343  vi Chart.yaml
+  344  cd templates/
+  345  ls
+  346  cat hpa.yaml
+  347  ls
+  348  cat deployment.yaml
+  349  ls
+  350  cat service.yaml
+  351  ls
+  352  cat ingress.yaml
+  353  ls
+  354  cat serviceaccount.yaml
+  355  cd
+  356  las
+  357  ls
+  358  cd k8s-flask/
+  359  ls
+  360  cd
+  361  ls
+  362  cd flahem/
+  363  ls
+  364  kubectl get nodess
+  365  kubectl get nodes
+  366  kubectl ns
+  367  kubectl alias k
+  368  alias kubectl=k
+  369  k get nodes
+  370  kubectl get nods
+  371  kubectl get nodes
+  372  alias k=kubectl
+  373  kubectl get nods
+  374  kubectl get nodes
+  375  kubectl get ns
+  376  ls
+  377  cd jaga/
+  378  ls
+  379  vi values.yaml
+  380  cd templates/
+  381  ls
+  382  cat deployment.yaml
+  383  history
+
+
+certificate-issuer.yaml
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: chundru.sree@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+and apply changes:
+
+
+
+ingress.yml
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: flask-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: flask.srinandhan.xyz
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: flask-server
+          servicePort: https
+  tls:
+  - hosts:
+      - flask.srinandhan.xyz
+    secretName: flask-secret
+

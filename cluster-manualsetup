@@ -1,0 +1,180 @@
+1. create the ec2 
+create the iam --> roles -> create a role
+(ec2)--> next permossion --> administractor Acess (next tags)
+Roll name (terraform-eks) --> create a role
+alltach to ec2
+goto action (security )modify iam role
+
+creating IAM role with admistration access given to the eksctl ec2 machine
+
+install the eksctl
+--------------------
+1.curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+2.sudo mv /tmp/eksctl /usr/local/bin
+
+install the kubectl
+--------------------
+1.curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+2.mv kubectl /usr/local/bin/
+3.chmod 755 /usr/local/bin/kubectl
+4.kubectl
+
+install the iam-authenticator
+-----------------------------
+1.curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/aws-iam-authenticator
+2.chmod 755 aws-iam-authenticator
+3.mv aws-iam-authenticator /usr/local/bin/
+4. aws-iam-authenticator
+
+awscli
+-------
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+
+eksctl create cluster manuval
+----------------------
+eksctl create cluster \
+--name jaga-cluster \
+--version 1.19 \
+--region us-east-2 \
+--nodegroup-name linux \
+--nodes 2 \
+--nodes-min 2 \
+--nodes-max 4 \
+--with-oidc \
+--ssh-access \
+--ssh-public-key node \
+--managed
+
+
+
+update the kube config
+----------------------
+aws eks --region <region-code> update-kubeconfig --name <cluster_name>
+aws eks --region us-east-2 update-kubeconfig --name jaga-cluster
+
+
+delete the cluster
+-------------------
+eksctl delete cluster --name=jaga-cluster
+
+
+
+
+
+create ns: vi (ns.yml)
+----------
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx
+--> kubectl apply -f ns.yml
+
+create deployment.yml: vi deployment.yml
+----------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8-sample
+  namespace: nginx
+  labels:
+    app: apache
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: apache
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      containers:
+      - name: apache
+        image: 705132973807.dkr.ecr.ap-south-1.amazonaws.com/apache:latest(ecr url)
+        ports:
+        - containerPort: 80
+
+
+
+------> kubectl apply -f deployment.yml
+
+
+create service.yml
+
+---------->
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8-static-svc
+  namespace: nginx
+spec:
+  selector:
+    app: apache
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+-----> kubectl apply -f service.yml
+-----> kubectl apply -f get svc -n nginx(ns)
+
+
+
+------> vi certificate-issuer.yaml
+
+
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: cert-manager
+spec:
+  acme:
+    # The ACME server URL
+    server: https://acme-v02.api.letsencrypt.org/directory
+    # Email address used for ACME registration
+    email: mrkenanbek@gmail.com
+    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    # Enable the HTTP-01 challenge provider
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+
+-----> kubectl apply -f certificate-issuer.yaml
+
+-----> vi ingress.yml
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: apache-server-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+  - host: apache.jagadha.online
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: newstatic-svc
+          servicePort: https
+  tls:
+  - hosts:
+      - apache.jagadha.online
+    secretName: apache-secret
+
+
+ 
+----> kubectl apply -f ingress.yml -n nginx (ns)
+---->  kubectl get ing -n nginx

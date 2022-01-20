@@ -1,0 +1,55 @@
+1. create the ec2
+--> security group (22 -myip(admin),9090-prometheus ,3000-grafana)
+
+2.login git bash ssh -i pemfile ubuntu-user@publicip
+3.switch to root user -> sudo su 
+# INSTALL THE URL 
+--> wget https://github.com/prometheus/node_exporter/releases/download/v1.2.2/node_exporter-1.2.2.linux-amd64.tar.gz
+--> ls -ltrh
+## extract that tar file 
+--> tar -xzf node_exporter-1.2.2.linux-amd64.tar.gz
+#rename the file 
+--> mv node_exporter-1.2.2.linux-amd64 monitagent
+--> cd monitagent
+--> nohup ./node_exporter &
+--> ps -ef | grep -i node
+mo
+##INSTALL THE PROMETHEUS
+--> wget https://github.com/prometheus/prometheus/releases/download/v2.29.1/prometheus-2.29.1.linux-amd64.tar.gz
+--> tar -xzf prometheus-2.29.1.linux-amd64.tar.gz
+--> mv prometheus-2.29.1.linux-amd64 prometheus
+--> cd prometheus
+--> ./ prometheus
+--> nohup ./prometheus &
+--> ps -ef | grep -i prometheus
+--> netstat -anlp | grep processID
+
+add the server to gather the metrics(which one do you want)
+
+in the prometheus.yml
+
+ - job_name: "prometheus"
+
+    # metrics_path defaults to '/metrics'
+    # scheme defaults to 'http'.
+
+    static_configs:
+      - targets: ["localhost:9090"]
+
+### INSTAL THE GRAFANA 
+--> sudo apt-get update
+--> sudo apt-get upgrade
+--> wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+--> sudo apt-key list
+--> sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+--> sudo apt update
+--> sudo apt-get -y install grafana
+--> 
+--> sudo systemctl start grafana-server
+--> sudo systemctl enable grafana-server
+--> ps -ef | grep grafana
+--> netstat -anlp | grep "3000".
+
+
+### GRAFANA DASH BOARDS
+--> https://grafana.com/grafana/dashboards 
